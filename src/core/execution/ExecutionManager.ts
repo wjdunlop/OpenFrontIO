@@ -2,6 +2,7 @@ import { Execution, Game } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { ClientID, GameID, Intent, Turn } from "../Schemas";
 import { simpleHash } from "../Util";
+import { getDefaultFakeHumanPersonality } from "./ai/defaultPersonality";
 import { AllianceExtensionExecution } from "./alliance/AllianceExtensionExecution";
 import { AllianceRequestExecution } from "./alliance/AllianceRequestExecution";
 import { AllianceRequestReplyExecution } from "./alliance/AllianceRequestReplyExecution";
@@ -130,8 +131,9 @@ export class Executor {
 
   fakeHumanExecutions(): Execution[] {
     const execs: Execution[] = [];
+    const personality = getDefaultFakeHumanPersonality();
     for (const nation of this.mg.nations()) {
-      execs.push(new FakeHumanExecution(this.gameID, nation));
+      execs.push(new FakeHumanExecution(this.gameID, nation, personality));
     }
     return execs;
   }

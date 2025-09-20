@@ -26,6 +26,7 @@
   "include": [
     "src/**/*",
     "resources/**/*",
+    "bot-behaviors/**/*",
     "generated/**/*",
     "tests/**/*",
     "src/scripts"

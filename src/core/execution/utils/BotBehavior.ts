@@ -13,24 +13,45 @@ import { AllianceExtensionExecution } from "../alliance/AllianceExtensionExecuti
 import { AttackExecution } from "../AttackExecution";
 import { EmojiExecution } from "../EmojiExecution";
 
+export interface BotBehaviorSettings {
+  enemyMemoryTicks: number;
+  neutralAllianceExtensionOdds: number;
+  assist: {
+    minRelation: Relation;
+    relationPenalty: number;
+    emoji: string;
+  };
+  skipFakeHumanNeighborOdds: number;
+  traitorAttackOdds: number;
+  allianceAcceptance: {
+    minRelation: Relation;
+    rejectTraitors: boolean;
+    sizeAdvantageRatio: number;
+    maxAlliances: number;
+  };
+}
+
 export class BotBehavior {
   private enemy: Player | null = null;
   private enemyUpdated: Tick;
-
-  private assistAcceptEmoji = flattenedEmojiTable.indexOf("👍");
+  private assistAcceptEmoji: number;
 
   constructor(
     private random: PseudoRandom,
     private game: Game,
     private player: Player,
+    private settings: BotBehaviorSettings,
     private triggerRatio: number,
     private reserveRatio: number,
     private expandRatio: number,
-  ) {}
+  ) {
+    this.enemyUpdated = this.game.ticks();
+    this.assistAcceptEmoji = this.resolveEmoji(settings.assist.emoji);
+  }
 
   handleAllianceRequests() {
     for (const req of this.player.incomingAllianceRequests()) {
-      if (shouldAcceptAllianceRequest(this.player, req)) {
+      if (this.shouldAcceptAllianceRequest(req)) {
         req.accept();
       } else {
         req.reject();
@@ -40,24 +61,60 @@ export class BotBehavior {
 
   handleAllianceExtensionRequests() {
     for (const alliance of this.player.alliances()) {
-      // Alliance expiration tracked by Events Panel, only human ally can click Request to Renew
-      // Skip if no expiration yet/ ally didn't request extension yet/ bot already agreed to extend
       if (!alliance.onlyOneAgreedToExtend()) continue;
 
-      // Nation is either Friendly or Neutral as an ally. Bot has no attitude
-      // If Friendly or Bot, always agree to extend. If Neutral, have random chance decide
       const human = alliance.other(this.player);
       if (
         this.player.type() === PlayerType.FakeHuman &&
         this.player.relation(human) === Relation.Neutral
       ) {
-        if (!this.random.chance(1.5)) continue;
+        if (!this.random.chance(this.settings.neutralAllianceExtensionOdds)) {
+          continue;
+        }
       }
 
       this.game.addExecution(
         new AllianceExtensionExecution(this.player, human.id()),
       );
     }
+  }
+
+  private resolveEmoji(emoji: string): number {
+    const index = flattenedEmojiTable.indexOf(emoji);
+    if (index === -1) {
+      throw new Error(`Emoji ${emoji} not found in emoji table`);
+    }
+    return index;
+  }
+
+  private shouldAcceptAllianceRequest(request: AllianceRequest): boolean {
+    const requester = request.requestor();
+    if (
+      this.player.relation(requester) <
+      this.settings.allianceAcceptance.minRelation
+    ) {
+      return false;
+    }
+    if (
+      this.settings.allianceAcceptance.rejectTraitors &&
+      requester.isTraitor()
+    ) {
+      return false;
+    }
+    if (
+      requester.numTilesOwned() >
+      this.player.numTilesOwned() *
+        this.settings.allianceAcceptance.sizeAdvantageRatio
+    ) {
+      return true;
+    }
+    if (
+      requester.alliances().length >=
+      this.settings.allianceAcceptance.maxAlliances
+    ) {
+      return false;
+    }
+    return true;
   }
 
   private emoji(player: Player, emoji: number) {
@@ -72,11 +129,15 @@ export class BotBehavior {
 
   private clearEnemy() {
     this.enemy = null;
+    this.enemyUpdated = this.game.ticks();
   }
 
   forgetOldEnemies() {
-    // Forget old enemies
-    if (this.game.ticks() - this.enemyUpdated > 100) {
+    if (this.enemy === null) return;
+    if (
+      this.game.ticks() - this.enemyUpdated >
+      this.settings.enemyMemoryTicks
+    ) {
       this.clearEnemy();
     }
   }
@@ -88,7 +149,6 @@ export class BotBehavior {
   }
 
   private checkIncomingAttacks() {
-    // Switch enemies if we're under attack
     const incomingAttacks = this.player.incomingAttacks();
     let largestAttack = 0;
     let largestAttacker: Player | undefined;
@@ -106,27 +166,26 @@ export class BotBehavior {
     const traitors = this.player
       .neighbors()
       .filter((n): n is Player => n.isPlayer() && n.isTraitor());
-    return traitors.length > 0 ? this.random.randElement(traitors) : null;
+    if (traitors.length === 0) {
+      return null;
+    }
+    return this.random.randElement(traitors);
   }
 
   assistAllies() {
     outer: for (const ally of this.player.allies()) {
       if (ally.targets().length === 0) continue;
-      if (this.player.relation(ally) < Relation.Friendly) {
-        // this.emoji(ally, "🤦");
+      if (this.player.relation(ally) < this.settings.assist.minRelation) {
         continue;
       }
       for (const target of ally.targets()) {
         if (target === this.player) {
-          // this.emoji(ally, "💀");
           continue;
         }
         if (this.player.isAlliedWith(target)) {
-          // this.emoji(ally, "👎");
           continue;
         }
-        // All checks passed, assist them
-        this.player.updateRelation(ally, -20);
+        this.player.updateRelation(ally, this.settings.assist.relationPenalty);
         this.setNewEnemy(target);
         this.emoji(ally, this.assistAcceptEmoji);
         break outer;
@@ -136,10 +195,8 @@ export class BotBehavior {
 
   selectEnemy(): Player | null {
     if (this.enemy === null) {
-      // Save up troops until we reach the trigger ratio
       if (!this.hasSufficientTroops()) return null;
 
-      // Prefer neighboring bots
       const bots = this.player
         .neighbors()
         .filter(
@@ -163,12 +220,10 @@ export class BotBehavior {
         }
       }
 
-      // Retaliate against incoming attacks
       if (this.enemy === null) {
         this.checkIncomingAttacks();
       }
 
-      // Select the most hated player
       if (this.enemy === null) {
         const mostHated = this.player.allRelationsSorted()[0];
         if (
@@ -180,45 +235,43 @@ export class BotBehavior {
       }
     }
 
-    // Sanity check, don't attack our allies or teammates
     return this.enemySanityCheck();
   }
 
   selectRandomEnemy(): Player | TerraNullius | null {
     if (this.enemy === null) {
-      // Save up troops until we reach the trigger ratio
       if (!this.hasSufficientTroops()) return null;
 
-      // Choose a new enemy randomly
       const neighbors = this.player.neighbors();
       for (const neighbor of this.random.shuffleArray(neighbors)) {
         if (!neighbor.isPlayer()) continue;
         if (this.player.isFriendly(neighbor)) continue;
-        if (neighbor.type() === PlayerType.FakeHuman) {
-          if (this.random.chance(2)) {
-            continue;
-          }
+        if (
+          neighbor.type() === PlayerType.FakeHuman &&
+          this.random.chance(this.settings.skipFakeHumanNeighborOdds)
+        ) {
+          continue;
         }
         this.setNewEnemy(neighbor);
+        break;
       }
 
-      // Retaliate against incoming attacks
       if (this.enemy === null) {
         this.checkIncomingAttacks();
       }
 
-      // Select a traitor as an enemy
       if (this.enemy === null) {
         const toAttack = this.getNeighborTraitorToAttack();
-        if (toAttack !== null) {
-          if (!this.player.isFriendly(toAttack) && this.random.chance(3)) {
-            this.setNewEnemy(toAttack);
-          }
+        if (
+          toAttack !== null &&
+          !this.player.isFriendly(toAttack) &&
+          this.random.chance(this.settings.traitorAttackOdds)
+        ) {
+          this.setNewEnemy(toAttack);
         }
       }
     }
 
-    // Sanity check, don't attack our allies or teammates
     return this.enemySanityCheck();
   }
 
@@ -230,7 +283,7 @@ export class BotBehavior {
   }
 
   sendAttack(target: Player | TerraNullius) {
-    // Skip attacking friendly targets (allies or teammates) - decision to break alliances should be made by caller
+    if (target.isPlayer() && this.player.isOnSameTeam(target)) return;
     if (target.isPlayer() && this.player.isFriendly(target)) return;
 
     const maxTroops = this.game.config().maxTroops(this.player);
@@ -248,20 +301,4 @@ export class BotBehavior {
       ),
     );
   }
-}
-
-function shouldAcceptAllianceRequest(player: Player, request: AllianceRequest) {
-  if (player.relation(request.requestor()) < Relation.Neutral) {
-    return false; // Reject if hasMalice
-  }
-  if (request.requestor().isTraitor()) {
-    return false; // Reject if isTraitor
-  }
-  if (request.requestor().numTilesOwned() > player.numTilesOwned() * 3) {
-    return true; // Accept if requestorIsMuchLarger
-  }
-  if (request.requestor().alliances().length >= 3) {
-    return false; // Reject if tooManyAlliances
-  }
-  return true; // Accept otherwise
 }
