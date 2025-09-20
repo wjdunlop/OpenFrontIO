@@ -93,6 +93,19 @@ On every eligible tick `FakeHumanExecution.maybeAttack` orchestrates the followi
 
 All randomness is deterministic per game because the pseudo-random generator is seeded from the game id and NPC id.
 
+## Personality Catalog
+
+The JSON catalog at `bot-behaviors/default.json` now bundles several ready-made archetypes. Load them with `getFakeHumanPersonality("<id>")` (see `src/core/execution/ai/defaultPersonality.ts`).
+
+- `default` – balanced generalist used previously; mixes land grabs, light diplomacy, and occasional nukes.
+- `turtle` – defensive builder that hoards reserves, prefers forts and silos, and rarely breaks treaties.
+- `rusher` – hyper-aggressive opener that sacrifices reserves for rapid strikes and early naval pressure.
+- `eco_focus` – prioritises cities/factories before expanding, favouring long wars of attrition and economic scaling.
+- `diplomat` – alliance-heavy personality with low betrayal chance and conservative use of heavy weapons.
+- `viking` – amphibious raider that emphasises ports, warships, and frequent transport assaults.
+
+Tweak or add additional personalities by extending the same schema; the helper will surface them automatically through `availableFakeHumanPersonalities()`.
+
 ## Known Limitations / TODOs
 
 - Alliance betrayal lacks strategic safeguards; NPCs will break pacts instantly when `shouldAttack` selects an ally. The comment in `maybeConsiderBetrayal` outlines desired future checks (relative strength, multi-front wars, strategic value, etc.).

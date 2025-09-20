@@ -278,6 +278,17 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
         break;
     }
 
+    let personalityHtml: TemplateResult | string = "";
+    if (player.type() === PlayerType.FakeHuman) {
+      const personalityId = player.personalityId();
+      if (personalityId) {
+        personalityHtml = html`<div class="text-sm opacity-80">
+          ${translateText("player_info_overlay.personality")}:
+          ${this.personalityLabel(personalityId)}
+        </div>`;
+      }
+    }
+
     return html`
       <div class="p-2">
         <button
@@ -319,6 +330,7 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
                   </div>`
                 : ""}
               <div class="flex text-sm">${playerType} ${relationHtml}</div>
+              ${personalityHtml}
               ${player.troops() >= 1
                 ? html`<div
                     class="flex gap-2 text-sm opacity-80"
@@ -399,6 +411,17 @@ export class PlayerInfoOverlay extends LitElement implements Layer {
           : ""}
       </div>
     `;
+  }
+
+  private personalityLabel(personalityId: string): string {
+    const key = `player_info_overlay.personalities.${personalityId}`;
+    const translated = translateText(key);
+    if (translated === key) {
+      return personalityId
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+    return translated;
   }
 
   private renderUnitInfo(unit: UnitView) {

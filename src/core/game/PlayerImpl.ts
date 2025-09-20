@@ -103,6 +103,7 @@ export class PlayerImpl implements Player {
 
   private _hasSpawned = false;
   private _isDisconnected = false;
+  private readonly _personalityId?: string;
 
   constructor(
     private mg: GameImpl,
@@ -116,6 +117,7 @@ export class PlayerImpl implements Player {
     this._gold = 0n;
     this._displayName = this._name;
     this._pseudo_random = new PseudoRandom(simpleHash(this.playerInfo.id));
+    this._personalityId = playerInfo.personalityId ?? undefined;
   }
 
   largestClusterBoundingBox: { min: Cell; max: Cell } | null;
@@ -175,7 +177,12 @@ export class PlayerImpl implements Player {
       ),
       hasSpawned: this.hasSpawned(),
       betrayals: stats?.betrayals,
+      personalityId: this._personalityId,
     };
+  }
+
+  personalityId(): string | undefined {
+    return this._personalityId;
   }
 
   smallID(): number {

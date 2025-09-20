@@ -1,5 +1,6 @@
 import { placeName } from "../client/graphics/NameBoxCalculator";
 import { getConfig } from "./configuration/ConfigLoader";
+import { randomFakeHumanPersonalityId } from "./execution/ai/defaultPersonality";
 import { Executor } from "./execution/ExecutionManager";
 import { WinCheckExecution } from "./execution/WinCheckExecution";
 import {
@@ -56,14 +57,21 @@ export async function createGameRunner(
 
   const nations = gameStart.config.disableNPCs
     ? []
-    : gameMap.manifest.nations.map(
-        (n) =>
-          new Nation(
-            new Cell(n.coordinates[0], n.coordinates[1]),
-            n.strength,
-            new PlayerInfo(n.name, PlayerType.FakeHuman, null, random.nextID()),
+    : gameMap.manifest.nations.map((n) => {
+        const personalityId = randomFakeHumanPersonalityId(random);
+        return new Nation(
+          new Cell(n.coordinates[0], n.coordinates[1]),
+          n.strength,
+          new PlayerInfo(
+            n.name,
+            PlayerType.FakeHuman,
+            null,
+            random.nextID(),
+            undefined,
+            personalityId,
           ),
-      );
+        );
+      });
 
   const game: Game = createGame(
     humans,

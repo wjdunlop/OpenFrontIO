@@ -1,5 +1,8 @@
 import { AllianceExtensionExecution } from "../src/core/execution/alliance/AllianceExtensionExecution";
-import { BotBehavior } from "../src/core/execution/utils/BotBehavior";
+import {
+  BotBehavior,
+  createDefaultBotBehaviorSettings,
+} from "../src/core/execution/utils/BotBehavior";
 import {
   AllianceRequest,
   Game,
@@ -45,7 +48,15 @@ describe("BotBehavior.handleAllianceRequests", () => {
 
     const random = new PseudoRandom(42);
 
-    botBehavior = new BotBehavior(random, game, player, 0.5, 0.5, 0.2);
+    botBehavior = new BotBehavior(
+      random,
+      game,
+      player,
+      createDefaultBotBehaviorSettings(),
+      0.5,
+      0.5,
+      0.2,
+    );
   });
 
   function setupAllianceRequest({
@@ -161,7 +172,7 @@ describe("BotBehavior.handleAllianceExtensionRequests", () => {
   let botBehavior: BotBehavior;
 
   beforeEach(() => {
-    mockGame = { addExecution: jest.fn() };
+    mockGame = { addExecution: jest.fn(), ticks: jest.fn(() => 0) };
     mockHuman = { id: jest.fn(() => "human_id") };
     mockAlliance = {
       onlyOneAgreedToExtend: jest.fn(() => true),
@@ -180,6 +191,7 @@ describe("BotBehavior.handleAllianceExtensionRequests", () => {
       mockRandom,
       mockGame,
       mockPlayer,
+      createDefaultBotBehaviorSettings(),
       0.5,
       0.5,
       0.2,
@@ -281,6 +293,7 @@ describe("BotBehavior Attack Behavior", () => {
       new PseudoRandom(42),
       testGame,
       testBot,
+      createDefaultBotBehaviorSettings(),
       0.5,
       0.5,
       0.2,
@@ -357,6 +370,7 @@ describe("BotBehavior Attack Behavior", () => {
       new PseudoRandom(42),
       game,
       nation,
+      createDefaultBotBehaviorSettings(),
       0.5,
       0.5,
       0.2,

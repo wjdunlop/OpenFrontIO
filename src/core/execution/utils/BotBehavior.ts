@@ -31,6 +31,26 @@ export interface BotBehaviorSettings {
   };
 }
 
+export function createDefaultBotBehaviorSettings(): BotBehaviorSettings {
+  return {
+    enemyMemoryTicks: 100,
+    neutralAllianceExtensionOdds: 1.5,
+    assist: {
+      minRelation: Relation.Friendly,
+      relationPenalty: -20,
+      emoji: "👍",
+    },
+    skipFakeHumanNeighborOdds: 2,
+    traitorAttackOdds: 3,
+    allianceAcceptance: {
+      minRelation: Relation.Neutral,
+      rejectTraitors: true,
+      sizeAdvantageRatio: 3,
+      maxAlliances: 3,
+    },
+  };
+}
+
 export class BotBehavior {
   private enemy: Player | null = null;
   private enemyUpdated: Tick;

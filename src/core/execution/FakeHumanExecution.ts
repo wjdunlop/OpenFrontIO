@@ -7,6 +7,7 @@ import {
   Player,
   PlayerID,
   PlayerType,
+  Relation,
   TerrainType,
   Tick,
   Unit,
@@ -640,6 +641,64 @@ export class FakeHumanExecution implements Execution {
           }
 
           // TODO: Cities and factories should consider train range limits
+          return w;
+        };
+      case UnitType.DefensePost:
+        return (tile) => {
+          let w = 0;
+
+          // Base preference: near border but avoid clustering
+          const closestBorder = closestTwoTiles(mg, borderTiles, [tile]);
+          if (closestBorder !== null) {
+            const d = mg.manhattanDist(closestBorder.x, tile);
+            w += Math.min(d, borderSpacing);
+          }
+
+          // Avoid stacking on existing defense posts
+          const defenseTiles: Set<TileRef> = new Set(
+            otherUnits.map((u) => u.tile()),
+          );
+          defenseTiles.delete(tile);
+          const closestDefense = closestTwoTiles(mg, defenseTiles, [tile]);
+          if (closestDefense !== null) {
+            const d = mg.manhattanDist(closestDefense.x, tile);
+            w += Math.min(d, structureSpacing);
+          }
+
+          if (this.player === null) {
+            throw new Error("not initialized");
+          }
+
+          const player = this.player;
+
+          const neighbors = Array.from(mg.neighbors(tile));
+
+          const hostileBonus = neighbors.some((neighbor) => {
+            if (!mg.hasOwner(neighbor)) {
+              return false;
+            }
+            const owner = mg.owner(neighbor);
+            if (owner === player) {
+              return false;
+            }
+            return (
+              owner.isPlayer() &&
+              !player.isFriendly(owner) &&
+              player.relation(owner as Player) <= Relation.Distrustful
+            );
+          });
+
+          if (hostileBonus) {
+            w += borderSpacing;
+          }
+
+          const coastalBonus = neighbors.some((neighbor) =>
+            mg.isOcean(neighbor),
+          );
+          if (coastalBonus) {
+            w += borderSpacing / 2;
+          }
+
           return w;
         };
       default:

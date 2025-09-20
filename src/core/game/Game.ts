@@ -381,6 +381,7 @@ export class PlayerInfo {
     // TODO: make player id the small id
     public readonly id: PlayerID,
     public readonly nation?: Nation | null,
+    public readonly personalityId?: string,
   ) {
     // Compute clan from name
     if (!name.startsWith("[") || !name.includes("]")) {
@@ -500,6 +501,7 @@ export interface Player {
   clientID(): ClientID | null;
   id(): PlayerID;
   type(): PlayerType;
+  personalityId(): string | undefined;
   isPlayer(): this is Player;
   toString(): string;
 

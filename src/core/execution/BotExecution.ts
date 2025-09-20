@@ -1,7 +1,11 @@
 import { Execution, Game, Player } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { simpleHash } from "../Util";
-import { BotBehavior } from "./utils/BotBehavior";
+import {
+  BotBehavior,
+  BotBehaviorSettings,
+  createDefaultBotBehaviorSettings,
+} from "./utils/BotBehavior";
 
 export class BotExecution implements Execution {
   private active = true;
@@ -10,6 +14,7 @@ export class BotExecution implements Execution {
   private neighborsTerraNullius = true;
 
   private behavior: BotBehavior | null = null;
+  private readonly settings: BotBehaviorSettings;
   private attackRate: number;
   private attackTick: number;
   private triggerRatio: number;
@@ -18,6 +23,7 @@ export class BotExecution implements Execution {
 
   constructor(private bot: Player) {
     this.random = new PseudoRandom(simpleHash(bot.id()));
+    this.settings = createDefaultBotBehaviorSettings();
     this.attackRate = this.random.nextInt(40, 80);
     this.attackTick = this.random.nextInt(0, this.attackRate);
     this.triggerRatio = this.random.nextInt(60, 90) / 100;
@@ -46,6 +52,7 @@ export class BotExecution implements Execution {
         this.random,
         this.mg,
         this.bot,
+        this.settings,
         this.triggerRatio,
         this.reserveRatio,
         this.expandRatio,

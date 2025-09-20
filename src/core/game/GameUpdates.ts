@@ -168,6 +168,7 @@ export interface PlayerUpdate {
   alliances: AllianceView[];
   hasSpawned: boolean;
   betrayals?: bigint;
+  personalityId?: string;
 }
 
 export interface AllianceView {

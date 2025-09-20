@@ -1,4 +1,5 @@
 import data from "../../../../bot-behaviors/default.json";
+import { PseudoRandom } from "../../PseudoRandom";
 import {
   FakeHumanPersonality,
   FakeHumanPersonalityCatalog,
@@ -19,4 +20,13 @@ export function getDefaultFakeHumanPersonality(): FakeHumanPersonality {
 
 export function availableFakeHumanPersonalities(): string[] {
   return catalog.ids();
+}
+
+export function randomFakeHumanPersonalityId(random: PseudoRandom): string {
+  const ids = catalog.ids();
+  if (ids.length === 0) {
+    return "default";
+  }
+  const index = random.nextInt(0, ids.length);
+  return ids[index];
 }

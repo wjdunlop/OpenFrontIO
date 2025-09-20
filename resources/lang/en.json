@@ -478,6 +478,7 @@
     "hide": "Hide",
     "rank": "Rank",
     "player": "Player",
+    "personality": "Personality",
     "team": "Team",
     "owned": "Owned",
     "gold": "Gold",
@@ -494,6 +495,7 @@
     "bot": "Bot",
     "nation": "Nation",
     "player": "Player",
+    "personality": "Personality",
     "team": "Team",
     "alliance_timeout": "Alliance ends in",
     "troops": "Troops",
@@ -507,7 +509,15 @@
     "warships": "Warships",
     "health": "Health",
     "attitude": "Attitude",
-    "levels": "Levels"
+    "levels": "Levels",
+    "personalities": {
+      "default": "Balanced",
+      "turtle": "Turtle",
+      "rusher": "Rusher",
+      "eco_focus": "Economist",
+      "diplomat": "Diplomat",
+      "viking": "Viking Raider"
+    }
   },
   "events_display": {
     "retreating": "retreating",

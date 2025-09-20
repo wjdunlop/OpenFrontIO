@@ -263,6 +263,9 @@ export class PlayerView {
   id(): PlayerID {
     return this.data.id;
   }
+  personalityId(): string | undefined {
+    return this.data.personalityId;
+  }
   team(): Team | null {
     return this.data.team ?? null;
   }

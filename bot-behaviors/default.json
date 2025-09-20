@@ -3,10 +3,10 @@
     {
       "id": "default",
       "pacing": {
-        "attackRateTicks": { "min": 40, "max": 80 },
-        "triggerRatio": { "min": 0.6, "max": 0.9 },
-        "reserveRatio": { "min": 0.3, "max": 0.6 },
-        "expandRatio": { "min": 0.15, "max": 0.25 }
+        "attackRateTicks": { "min": 35, "max": 75 },
+        "triggerRatio": { "min": 0.55, "max": 0.85 },
+        "reserveRatio": { "min": 0.28, "max": 0.5 },
+        "expandRatio": { "min": 0.12, "max": 0.22 }
       },
       "spawn": {
         "landSearch": {
@@ -17,11 +17,11 @@
       },
       "diplomacy": {
         "embargo": {
-          "relationMalus": -20,
+          "relationMalus": -18,
           "startRelation": "Hostile",
           "stopRelation": "Neutral"
         },
-        "allianceRequestOdds": 20,
+        "allianceRequestOdds": 18,
         "neutralAllianceExtensionOdds": 1.5,
         "allowImmediateBetrayal": true,
         "allianceAcceptance": {
@@ -40,8 +40,8 @@
       },
       "combat": {
         "weakestEnemyOdds": 2,
-        "friendlyAttackOdds": 50,
-        "friendlyDiscouragedAttackOdds": 200,
+        "friendlyAttackOdds": 45,
+        "friendlyDiscouragedAttackOdds": 180,
         "hostileDiscouragedAttackOdds": 4,
         "discourage": {
           "targetTypes": ["HUMAN"],
@@ -50,41 +50,41 @@
         }
       },
       "behavior": {
-        "enemyMemoryTicks": 100
+        "enemyMemoryTicks": 110
       },
       "communications": {
-        "tauntCooldownTicks": 300,
+        "tauntCooldownTicks": 280,
         "tauntEmojis": ["🤡", "😡"]
       },
       "naval": {
-        "idleRaidOdds": 10,
-        "engagedRaidOdds": 20,
-        "raidTroopShare": 0.2,
-        "attackTroopShare": 0.2,
+        "idleRaidOdds": 12,
+        "engagedRaidOdds": 18,
+        "raidTroopShare": 0.22,
+        "attackTroopShare": 0.22,
         "boatDestinationSearchRadius": 150,
         "boatDestinationMaxAttempts": 500,
         "warship": {
-          "chanceOdds": 50,
-          "spawnRadius": 250,
-          "maxExisting": 0,
+          "chanceOdds": 48,
+          "spawnRadius": 240,
+          "maxExisting": 1,
           "minPorts": 1
         }
       },
       "nukes": {
-        "randomTileSampleSize": 10,
-        "borderValidationRadius": 15,
+        "randomTileSampleSize": 12,
+        "borderValidationRadius": 16,
         "damageRadius": 25,
         "samAvoidanceRadius": 50,
         "structureScores": {
-          "City": 25000,
-          "Defense Post": 5000,
-          "Missile Silo": 50000,
-          "Port": 10000
+          "City": 26000,
+          "Defense Post": 6000,
+          "Missile Silo": 52000,
+          "Port": 10500
         },
-        "samPenalty": 50000,
-        "distancePenaltyPerTile": 30,
-        "recentTargetPenalty": 1000000,
-        "recentTargetCooldownTicks": 500
+        "samPenalty": 52000,
+        "distancePenaltyPerTile": 32,
+        "recentTargetPenalty": 1100000,
+        "recentTargetCooldownTicks": 520
       },
       "construction": {
         "perceivedCostMultiplierCap": 5,
@@ -95,11 +95,518 @@
           {
             "kind": "warship",
             "unitType": "Warship",
-            "chanceOdds": 50,
-            "spawnRadius": 250,
-            "maxExisting": 0,
+            "chanceOdds": 45,
+            "spawnRadius": 240,
+            "maxExisting": 1,
             "minPorts": 1
           },
+          { "kind": "structure", "unitType": "Factory" },
+          { "kind": "structure", "unitType": "Missile Silo" }
+        ]
+      }
+    },
+    {
+      "id": "turtle",
+      "pacing": {
+        "attackRateTicks": { "min": 90, "max": 160 },
+        "triggerRatio": { "min": 0.82, "max": 0.98 },
+        "reserveRatio": { "min": 0.65, "max": 0.85 },
+        "expandRatio": { "min": 0.08, "max": 0.14 }
+      },
+      "spawn": {
+        "landSearch": {
+          "delta": 24,
+          "attempts": 65,
+          "skipMountainOdds": 4
+        }
+      },
+      "diplomacy": {
+        "embargo": {
+          "relationMalus": -10,
+          "startRelation": "Neutral",
+          "stopRelation": "Friendly"
+        },
+        "allianceRequestOdds": 32,
+        "neutralAllianceExtensionOdds": 1,
+        "allowImmediateBetrayal": false,
+        "allianceAcceptance": {
+          "minRelation": "Neutral",
+          "rejectTraitors": true,
+          "sizeAdvantageRatio": 2,
+          "maxAlliances": 2
+        },
+        "assist": {
+          "minRelation": "Friendly",
+          "relationPenalty": -6,
+          "emoji": "👍"
+        },
+        "skipFakeHumanNeighborOdds": 5,
+        "traitorAttackOdds": 6
+      },
+      "combat": {
+        "weakestEnemyOdds": 4,
+        "friendlyAttackOdds": 120,
+        "friendlyDiscouragedAttackOdds": 420,
+        "hostileDiscouragedAttackOdds": 10,
+        "discourage": {
+          "targetTypes": ["HUMAN", "FAKEHUMAN"],
+          "difficulties": ["Easy", "Medium", "Hard"],
+          "ignoreTraitors": true
+        }
+      },
+      "behavior": {
+        "enemyMemoryTicks": 260
+      },
+      "communications": {
+        "tauntCooldownTicks": 720,
+        "tauntEmojis": ["🤡", "😡"]
+      },
+      "naval": {
+        "idleRaidOdds": 50,
+        "engagedRaidOdds": 45,
+        "raidTroopShare": 0.12,
+        "attackTroopShare": 0.15,
+        "boatDestinationSearchRadius": 110,
+        "boatDestinationMaxAttempts": 300,
+        "warship": {
+          "chanceOdds": 85,
+          "spawnRadius": 220,
+          "maxExisting": 1,
+          "minPorts": 1
+        }
+      },
+      "nukes": {
+        "randomTileSampleSize": 6,
+        "borderValidationRadius": 20,
+        "damageRadius": 24,
+        "samAvoidanceRadius": 60,
+        "structureScores": {
+          "City": 28000,
+          "Defense Post": 9000,
+          "Missile Silo": 60000,
+          "Port": 7000
+        },
+        "samPenalty": 70000,
+        "distancePenaltyPerTile": 45,
+        "recentTargetPenalty": 1800000,
+        "recentTargetCooldownTicks": 700
+      },
+      "construction": {
+        "perceivedCostMultiplierCap": 7,
+        "structureTileSampleSize": 70,
+        "sequence": [
+          { "kind": "structure", "unitType": "Defense Post" },
+          { "kind": "structure", "unitType": "Missile Silo" },
+          { "kind": "structure", "unitType": "Defense Post" },
+          { "kind": "structure", "unitType": "City" },
+          { "kind": "structure", "unitType": "Factory" },
+          { "kind": "structure", "unitType": "Port" }
+        ]
+      }
+    },
+    {
+      "id": "rusher",
+      "pacing": {
+        "attackRateTicks": { "min": 15, "max": 35 },
+        "triggerRatio": { "min": 0.35, "max": 0.55 },
+        "reserveRatio": { "min": 0.12, "max": 0.2 },
+        "expandRatio": { "min": 0.04, "max": 0.1 }
+      },
+      "spawn": {
+        "landSearch": {
+          "delta": 28,
+          "attempts": 55,
+          "skipMountainOdds": 1
+        }
+      },
+      "diplomacy": {
+        "embargo": {
+          "relationMalus": -32,
+          "startRelation": "Hostile",
+          "stopRelation": "Distrustful"
+        },
+        "allianceRequestOdds": 70,
+        "neutralAllianceExtensionOdds": 5,
+        "allowImmediateBetrayal": true,
+        "allianceAcceptance": {
+          "minRelation": "Distrustful",
+          "rejectTraitors": false,
+          "sizeAdvantageRatio": 5,
+          "maxAlliances": 1
+        },
+        "assist": {
+          "minRelation": "Friendly",
+          "relationPenalty": -35,
+          "emoji": "👍"
+        },
+        "skipFakeHumanNeighborOdds": 1,
+        "traitorAttackOdds": 2
+      },
+      "combat": {
+        "weakestEnemyOdds": 1,
+        "friendlyAttackOdds": 25,
+        "friendlyDiscouragedAttackOdds": 60,
+        "hostileDiscouragedAttackOdds": 1,
+        "discourage": {
+          "targetTypes": [],
+          "difficulties": [],
+          "ignoreTraitors": false
+        }
+      },
+      "behavior": {
+        "enemyMemoryTicks": 90
+      },
+      "communications": {
+        "tauntCooldownTicks": 200,
+        "tauntEmojis": ["🤡", "😡"]
+      },
+      "naval": {
+        "idleRaidOdds": 14,
+        "engagedRaidOdds": 12,
+        "raidTroopShare": 0.3,
+        "attackTroopShare": 0.3,
+        "boatDestinationSearchRadius": 170,
+        "boatDestinationMaxAttempts": 420,
+        "warship": {
+          "chanceOdds": 32,
+          "spawnRadius": 220,
+          "maxExisting": 2,
+          "minPorts": 1
+        }
+      },
+      "nukes": {
+        "randomTileSampleSize": 16,
+        "borderValidationRadius": 15,
+        "damageRadius": 26,
+        "samAvoidanceRadius": 40,
+        "structureScores": {
+          "City": 24000,
+          "Defense Post": 3000,
+          "Missile Silo": 50000,
+          "Port": 10000
+        },
+        "samPenalty": 35000,
+        "distancePenaltyPerTile": 22,
+        "recentTargetPenalty": 450000,
+        "recentTargetCooldownTicks": 360
+      },
+      "construction": {
+        "perceivedCostMultiplierCap": 3,
+        "structureTileSampleSize": 35,
+        "sequence": [
+          { "kind": "structure", "unitType": "City" },
+          { "kind": "structure", "unitType": "Factory" },
+          {
+            "kind": "warship",
+            "unitType": "Warship",
+            "chanceOdds": 30,
+            "spawnRadius": 220,
+            "maxExisting": 2,
+            "minPorts": 1
+          },
+          { "kind": "structure", "unitType": "Port" },
+          { "kind": "structure", "unitType": "Missile Silo" }
+        ]
+      }
+    },
+    {
+      "id": "eco_focus",
+      "pacing": {
+        "attackRateTicks": { "min": 60, "max": 110 },
+        "triggerRatio": { "min": 0.68, "max": 0.9 },
+        "reserveRatio": { "min": 0.42, "max": 0.6 },
+        "expandRatio": { "min": 0.14, "max": 0.24 }
+      },
+      "spawn": {
+        "landSearch": {
+          "delta": 28,
+          "attempts": 60,
+          "skipMountainOdds": 2
+        }
+      },
+      "diplomacy": {
+        "embargo": {
+          "relationMalus": -16,
+          "startRelation": "Hostile",
+          "stopRelation": "Neutral"
+        },
+        "allianceRequestOdds": 15,
+        "neutralAllianceExtensionOdds": 1.2,
+        "allowImmediateBetrayal": false,
+        "allianceAcceptance": {
+          "minRelation": "Neutral",
+          "rejectTraitors": true,
+          "sizeAdvantageRatio": 2.5,
+          "maxAlliances": 4
+        },
+        "assist": {
+          "minRelation": "Friendly",
+          "relationPenalty": -12,
+          "emoji": "👍"
+        },
+        "skipFakeHumanNeighborOdds": 3,
+        "traitorAttackOdds": 3
+      },
+      "combat": {
+        "weakestEnemyOdds": 3,
+        "friendlyAttackOdds": 70,
+        "friendlyDiscouragedAttackOdds": 220,
+        "hostileDiscouragedAttackOdds": 5,
+        "discourage": {
+          "targetTypes": ["HUMAN"],
+          "difficulties": ["Easy", "Medium"],
+          "ignoreTraitors": true
+        }
+      },
+      "behavior": {
+        "enemyMemoryTicks": 170
+      },
+      "communications": {
+        "tauntCooldownTicks": 380,
+        "tauntEmojis": ["🤡", "😡"]
+      },
+      "naval": {
+        "idleRaidOdds": 25,
+        "engagedRaidOdds": 20,
+        "raidTroopShare": 0.2,
+        "attackTroopShare": 0.24,
+        "boatDestinationSearchRadius": 150,
+        "boatDestinationMaxAttempts": 360,
+        "warship": {
+          "chanceOdds": 60,
+          "spawnRadius": 240,
+          "maxExisting": 1,
+          "minPorts": 1
+        }
+      },
+      "nukes": {
+        "randomTileSampleSize": 14,
+        "borderValidationRadius": 18,
+        "damageRadius": 27,
+        "samAvoidanceRadius": 55,
+        "structureScores": {
+          "City": 32000,
+          "Defense Post": 4800,
+          "Missile Silo": 54000,
+          "Port": 9000
+        },
+        "samPenalty": 55000,
+        "distancePenaltyPerTile": 35,
+        "recentTargetPenalty": 950000,
+        "recentTargetCooldownTicks": 520
+      },
+      "construction": {
+        "perceivedCostMultiplierCap": 7,
+        "structureTileSampleSize": 60,
+        "sequence": [
+          { "kind": "structure", "unitType": "City" },
+          { "kind": "structure", "unitType": "Factory" },
+          { "kind": "structure", "unitType": "City" },
+          { "kind": "structure", "unitType": "Factory" },
+          { "kind": "structure", "unitType": "Port" },
+          { "kind": "structure", "unitType": "Missile Silo" }
+        ]
+      }
+    },
+    {
+      "id": "diplomat",
+      "pacing": {
+        "attackRateTicks": { "min": 55, "max": 95 },
+        "triggerRatio": { "min": 0.58, "max": 0.8 },
+        "reserveRatio": { "min": 0.32, "max": 0.5 },
+        "expandRatio": { "min": 0.14, "max": 0.24 }
+      },
+      "spawn": {
+        "landSearch": {
+          "delta": 26,
+          "attempts": 60,
+          "skipMountainOdds": 2
+        }
+      },
+      "diplomacy": {
+        "embargo": {
+          "relationMalus": -15,
+          "startRelation": "Hostile",
+          "stopRelation": "Friendly"
+        },
+        "allianceRequestOdds": 12,
+        "neutralAllianceExtensionOdds": 0.8,
+        "allowImmediateBetrayal": false,
+        "allianceAcceptance": {
+          "minRelation": "Distrustful",
+          "rejectTraitors": true,
+          "sizeAdvantageRatio": 2,
+          "maxAlliances": 5
+        },
+        "assist": {
+          "minRelation": "Neutral",
+          "relationPenalty": -8,
+          "emoji": "👍"
+        },
+        "skipFakeHumanNeighborOdds": 4,
+        "traitorAttackOdds": 2
+      },
+      "combat": {
+        "weakestEnemyOdds": 5,
+        "friendlyAttackOdds": 120,
+        "friendlyDiscouragedAttackOdds": 500,
+        "hostileDiscouragedAttackOdds": 8,
+        "discourage": {
+          "targetTypes": ["HUMAN", "FAKEHUMAN"],
+          "difficulties": ["Easy", "Medium", "Hard"],
+          "ignoreTraitors": false
+        }
+      },
+      "behavior": {
+        "enemyMemoryTicks": 160
+      },
+      "communications": {
+        "tauntCooldownTicks": 540,
+        "tauntEmojis": ["👍"]
+      },
+      "naval": {
+        "idleRaidOdds": 38,
+        "engagedRaidOdds": 30,
+        "raidTroopShare": 0.14,
+        "attackTroopShare": 0.18,
+        "boatDestinationSearchRadius": 130,
+        "boatDestinationMaxAttempts": 300,
+        "warship": {
+          "chanceOdds": 80,
+          "spawnRadius": 210,
+          "maxExisting": 1,
+          "minPorts": 1
+        }
+      },
+      "nukes": {
+        "randomTileSampleSize": 8,
+        "borderValidationRadius": 20,
+        "damageRadius": 24,
+        "samAvoidanceRadius": 65,
+        "structureScores": {
+          "City": 23000,
+          "Defense Post": 2500,
+          "Missile Silo": 40000,
+          "Port": 6500
+        },
+        "samPenalty": 68000,
+        "distancePenaltyPerTile": 48,
+        "recentTargetPenalty": 1500000,
+        "recentTargetCooldownTicks": 720
+      },
+      "construction": {
+        "perceivedCostMultiplierCap": 5,
+        "structureTileSampleSize": 50,
+        "sequence": [
+          { "kind": "structure", "unitType": "City" },
+          { "kind": "structure", "unitType": "Port" },
+          { "kind": "structure", "unitType": "Defense Post" },
+          { "kind": "structure", "unitType": "Factory" },
+          { "kind": "structure", "unitType": "Missile Silo" }
+        ]
+      }
+    },
+    {
+      "id": "viking",
+      "pacing": {
+        "attackRateTicks": { "min": 28, "max": 60 },
+        "triggerRatio": { "min": 0.45, "max": 0.65 },
+        "reserveRatio": { "min": 0.22, "max": 0.38 },
+        "expandRatio": { "min": 0.1, "max": 0.18 }
+      },
+      "spawn": {
+        "landSearch": {
+          "delta": 28,
+          "attempts": 55,
+          "skipMountainOdds": 1
+        }
+      },
+      "diplomacy": {
+        "embargo": {
+          "relationMalus": -22,
+          "startRelation": "Hostile",
+          "stopRelation": "Neutral"
+        },
+        "allianceRequestOdds": 28,
+        "neutralAllianceExtensionOdds": 2,
+        "allowImmediateBetrayal": true,
+        "allianceAcceptance": {
+          "minRelation": "Neutral",
+          "rejectTraitors": true,
+          "sizeAdvantageRatio": 3,
+          "maxAlliances": 2
+        },
+        "assist": {
+          "minRelation": "Friendly",
+          "relationPenalty": -25,
+          "emoji": "👍"
+        },
+        "skipFakeHumanNeighborOdds": 1,
+        "traitorAttackOdds": 2
+      },
+      "combat": {
+        "weakestEnemyOdds": 2,
+        "friendlyAttackOdds": 40,
+        "friendlyDiscouragedAttackOdds": 150,
+        "hostileDiscouragedAttackOdds": 2,
+        "discourage": {
+          "targetTypes": [],
+          "difficulties": ["Easy", "Medium"],
+          "ignoreTraitors": false
+        }
+      },
+      "behavior": {
+        "enemyMemoryTicks": 130
+      },
+      "communications": {
+        "tauntCooldownTicks": 240,
+        "tauntEmojis": ["🤡", "😡"]
+      },
+      "naval": {
+        "idleRaidOdds": 4,
+        "engagedRaidOdds": 6,
+        "raidTroopShare": 0.38,
+        "attackTroopShare": 0.32,
+        "boatDestinationSearchRadius": 240,
+        "boatDestinationMaxAttempts": 650,
+        "warship": {
+          "chanceOdds": 16,
+          "spawnRadius": 260,
+          "maxExisting": 4,
+          "minPorts": 1
+        }
+      },
+      "nukes": {
+        "randomTileSampleSize": 10,
+        "borderValidationRadius": 15,
+        "damageRadius": 24,
+        "samAvoidanceRadius": 45,
+        "structureScores": {
+          "City": 23000,
+          "Defense Post": 3500,
+          "Missile Silo": 50000,
+          "Port": 14000
+        },
+        "samPenalty": 42000,
+        "distancePenaltyPerTile": 24,
+        "recentTargetPenalty": 700000,
+        "recentTargetCooldownTicks": 420
+      },
+      "construction": {
+        "perceivedCostMultiplierCap": 4,
+        "structureTileSampleSize": 45,
+        "sequence": [
+          { "kind": "structure", "unitType": "Port" },
+          {
+            "kind": "warship",
+            "unitType": "Warship",
+            "chanceOdds": 16,
+            "spawnRadius": 260,
+            "maxExisting": 4,
+            "minPorts": 1
+          },
+          { "kind": "structure", "unitType": "Defense Post" },
+          { "kind": "structure", "unitType": "City" },
           { "kind": "structure", "unitType": "Factory" },
           { "kind": "structure", "unitType": "Missile Silo" }
         ]
