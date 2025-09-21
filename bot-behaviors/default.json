@@ -3,10 +3,22 @@
     {
       "id": "default",
       "pacing": {
-        "attackRateTicks": { "min": 35, "max": 75 },
-        "triggerRatio": { "min": 0.55, "max": 0.85 },
-        "reserveRatio": { "min": 0.28, "max": 0.5 },
-        "expandRatio": { "min": 0.12, "max": 0.22 }
+        "attackRateTicks": {
+          "min": 35,
+          "max": 75
+        },
+        "triggerRatio": {
+          "min": 0.55,
+          "max": 0.85
+        },
+        "reserveRatio": {
+          "min": 0.28,
+          "max": 0.5
+        },
+        "expandRatio": {
+          "min": 0.12,
+          "max": 0.22
+        }
       },
       "spawn": {
         "landSearch": {
@@ -33,7 +45,7 @@
         "assist": {
           "minRelation": "Friendly",
           "relationPenalty": -20,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 2,
         "traitorAttackOdds": 3
@@ -54,7 +66,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 280,
-        "tauntEmojis": ["🤡", "😡"]
+        "tauntEmojis": ["\ud83e\udd21", "\ud83d\ude21"]
       },
       "naval": {
         "idleRaidOdds": 12,
@@ -90,8 +102,14 @@
         "perceivedCostMultiplierCap": 5,
         "structureTileSampleSize": 50,
         "sequence": [
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Port" },
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
           {
             "kind": "warship",
             "unitType": "Warship",
@@ -100,18 +118,36 @@
             "maxExisting": 1,
             "minPorts": 1
           },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "Missile Silo" }
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     },
     {
       "id": "turtle",
       "pacing": {
-        "attackRateTicks": { "min": 90, "max": 160 },
-        "triggerRatio": { "min": 0.82, "max": 0.98 },
-        "reserveRatio": { "min": 0.65, "max": 0.85 },
-        "expandRatio": { "min": 0.08, "max": 0.14 }
+        "attackRateTicks": {
+          "min": 90,
+          "max": 160
+        },
+        "triggerRatio": {
+          "min": 0.82,
+          "max": 0.98
+        },
+        "reserveRatio": {
+          "min": 0.65,
+          "max": 0.85
+        },
+        "expandRatio": {
+          "min": 0.08,
+          "max": 0.14
+        }
       },
       "spawn": {
         "landSearch": {
@@ -138,7 +174,7 @@
         "assist": {
           "minRelation": "Friendly",
           "relationPenalty": -6,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 5,
         "traitorAttackOdds": 6
@@ -159,7 +195,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 720,
-        "tauntEmojis": ["🤡", "😡"]
+        "tauntEmojis": ["\ud83e\udd21", "\ud83d\ude21"]
       },
       "naval": {
         "idleRaidOdds": 50,
@@ -195,22 +231,54 @@
         "perceivedCostMultiplierCap": 7,
         "structureTileSampleSize": 70,
         "sequence": [
-          { "kind": "structure", "unitType": "Defense Post" },
-          { "kind": "structure", "unitType": "Missile Silo" },
-          { "kind": "structure", "unitType": "Defense Post" },
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "Port" }
+          {
+            "kind": "structure",
+            "unitType": "Defense Post",
+            "chanceOdds": 80
+          },
+          {
+            "kind": "structure",
+            "unitType": "Defense Post",
+            "chanceOdds": 80
+          },
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     },
     {
       "id": "rusher",
       "pacing": {
-        "attackRateTicks": { "min": 15, "max": 35 },
-        "triggerRatio": { "min": 0.35, "max": 0.55 },
-        "reserveRatio": { "min": 0.12, "max": 0.2 },
-        "expandRatio": { "min": 0.04, "max": 0.1 }
+        "attackRateTicks": {
+          "min": 15,
+          "max": 35
+        },
+        "triggerRatio": {
+          "min": 0.35,
+          "max": 0.55
+        },
+        "reserveRatio": {
+          "min": 0.12,
+          "max": 0.2
+        },
+        "expandRatio": {
+          "min": 0.04,
+          "max": 0.1
+        }
       },
       "spawn": {
         "landSearch": {
@@ -237,7 +305,7 @@
         "assist": {
           "minRelation": "Friendly",
           "relationPenalty": -35,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 1,
         "traitorAttackOdds": 2
@@ -258,7 +326,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 200,
-        "tauntEmojis": ["🤡", "😡"]
+        "tauntEmojis": ["\ud83e\udd21", "\ud83d\ude21"]
       },
       "naval": {
         "idleRaidOdds": 14,
@@ -294,8 +362,14 @@
         "perceivedCostMultiplierCap": 3,
         "structureTileSampleSize": 35,
         "sequence": [
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Factory" },
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
           {
             "kind": "warship",
             "unitType": "Warship",
@@ -304,18 +378,36 @@
             "maxExisting": 2,
             "minPorts": 1
           },
-          { "kind": "structure", "unitType": "Port" },
-          { "kind": "structure", "unitType": "Missile Silo" }
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     },
     {
       "id": "eco_focus",
       "pacing": {
-        "attackRateTicks": { "min": 60, "max": 110 },
-        "triggerRatio": { "min": 0.68, "max": 0.9 },
-        "reserveRatio": { "min": 0.42, "max": 0.6 },
-        "expandRatio": { "min": 0.14, "max": 0.24 }
+        "attackRateTicks": {
+          "min": 60,
+          "max": 110
+        },
+        "triggerRatio": {
+          "min": 0.68,
+          "max": 0.9
+        },
+        "reserveRatio": {
+          "min": 0.42,
+          "max": 0.6
+        },
+        "expandRatio": {
+          "min": 0.14,
+          "max": 0.24
+        }
       },
       "spawn": {
         "landSearch": {
@@ -342,7 +434,7 @@
         "assist": {
           "minRelation": "Friendly",
           "relationPenalty": -12,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 3,
         "traitorAttackOdds": 3
@@ -363,7 +455,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 380,
-        "tauntEmojis": ["🤡", "😡"]
+        "tauntEmojis": ["\ud83e\udd21", "\ud83d\ude21"]
       },
       "naval": {
         "idleRaidOdds": 25,
@@ -399,22 +491,52 @@
         "perceivedCostMultiplierCap": 7,
         "structureTileSampleSize": 60,
         "sequence": [
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "Port" },
-          { "kind": "structure", "unitType": "Missile Silo" }
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     },
     {
       "id": "diplomat",
       "pacing": {
-        "attackRateTicks": { "min": 55, "max": 95 },
-        "triggerRatio": { "min": 0.58, "max": 0.8 },
-        "reserveRatio": { "min": 0.32, "max": 0.5 },
-        "expandRatio": { "min": 0.14, "max": 0.24 }
+        "attackRateTicks": {
+          "min": 55,
+          "max": 95
+        },
+        "triggerRatio": {
+          "min": 0.58,
+          "max": 0.8
+        },
+        "reserveRatio": {
+          "min": 0.32,
+          "max": 0.5
+        },
+        "expandRatio": {
+          "min": 0.14,
+          "max": 0.24
+        }
       },
       "spawn": {
         "landSearch": {
@@ -441,7 +563,7 @@
         "assist": {
           "minRelation": "Neutral",
           "relationPenalty": -8,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 4,
         "traitorAttackOdds": 2
@@ -462,7 +584,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 540,
-        "tauntEmojis": ["👍"]
+        "tauntEmojis": ["\ud83d\udc4d"]
       },
       "naval": {
         "idleRaidOdds": 38,
@@ -498,21 +620,49 @@
         "perceivedCostMultiplierCap": 5,
         "structureTileSampleSize": 50,
         "sequence": [
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Port" },
-          { "kind": "structure", "unitType": "Defense Post" },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "Missile Silo" }
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Defense Post",
+            "chanceOdds": 15
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     },
     {
       "id": "viking",
       "pacing": {
-        "attackRateTicks": { "min": 28, "max": 60 },
-        "triggerRatio": { "min": 0.45, "max": 0.65 },
-        "reserveRatio": { "min": 0.22, "max": 0.38 },
-        "expandRatio": { "min": 0.1, "max": 0.18 }
+        "attackRateTicks": {
+          "min": 28,
+          "max": 60
+        },
+        "triggerRatio": {
+          "min": 0.45,
+          "max": 0.65
+        },
+        "reserveRatio": {
+          "min": 0.22,
+          "max": 0.38
+        },
+        "expandRatio": {
+          "min": 0.1,
+          "max": 0.18
+        }
       },
       "spawn": {
         "landSearch": {
@@ -539,7 +689,7 @@
         "assist": {
           "minRelation": "Friendly",
           "relationPenalty": -25,
-          "emoji": "👍"
+          "emoji": "\ud83d\udc4d"
         },
         "skipFakeHumanNeighborOdds": 1,
         "traitorAttackOdds": 2
@@ -560,7 +710,7 @@
       },
       "communications": {
         "tauntCooldownTicks": 240,
-        "tauntEmojis": ["🤡", "😡"]
+        "tauntEmojis": ["\ud83e\udd21", "\ud83d\ude21"]
       },
       "naval": {
         "idleRaidOdds": 4,
@@ -596,7 +746,10 @@
         "perceivedCostMultiplierCap": 4,
         "structureTileSampleSize": 45,
         "sequence": [
-          { "kind": "structure", "unitType": "Port" },
+          {
+            "kind": "structure",
+            "unitType": "Port"
+          },
           {
             "kind": "warship",
             "unitType": "Warship",
@@ -605,10 +758,23 @@
             "maxExisting": 4,
             "minPorts": 1
           },
-          { "kind": "structure", "unitType": "Defense Post" },
-          { "kind": "structure", "unitType": "City" },
-          { "kind": "structure", "unitType": "Factory" },
-          { "kind": "structure", "unitType": "Missile Silo" }
+          {
+            "kind": "structure",
+            "unitType": "Defense Post",
+            "chanceOdds": 15
+          },
+          {
+            "kind": "structure",
+            "unitType": "City"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Factory"
+          },
+          {
+            "kind": "structure",
+            "unitType": "Missile Silo"
+          }
         ]
       }
     }
